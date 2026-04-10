@@ -31,10 +31,12 @@ class Student extends Model
         return "{$this->last_name}, {$this->first_name}{$mi}";
     }
 
-    public function getAverageGradeAttribute(): float|null
+    // Lecture 40% + Laboratory 60%, rounded to nearest whole number:
+    public function getFinalGradeAttribute(): float|null
     {
         if ($this->laboratory_grade !== null && $this->lecture_grade !== null) {
-            return ($this->laboratory_grade + $this->lecture_grade) / 2;
+            $raw = ($this->lecture_grade * 0.40) + ($this->laboratory_grade * 0.60);
+            return round($raw); // rounds to nearest whole number
         }
         return null;
     }
